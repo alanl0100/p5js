@@ -16,7 +16,7 @@
             g = random(0,255);
             b = random(0,255);
             size = random(50)
-            scale = 1.2
+            scale = random(8)
         }
 
         function draw() {
@@ -31,15 +31,19 @@
         }
         
         function mouseDragged() {
+            //circle the change color and size
             fill(r,b,g,opacity)
-            ellipse(mouseX,mouseY,scale*size,scale*size)
+            ellipse(mouseX,mouseY,mouseX,mouseY)
+            r = random(255);
+            g = random(255);
+            b = random(255);
         }
     </script>
 </head>
 
 <body>
     <div id="code" class="container-fluid">
-        <script src="https://gist-it.appspot.com/github/alanl0100/p5js/blob/master/interaction-project.html?footer=0"></script>
+        <script src="https://gist-it.appspot.com/github/alanl0100/p5js/blob/gh-pages/interaction-project.html?footer=0"></script>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
