@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var ballX;
+        var ballY;
+        var ballSpeedX = 0;//ball speed on the x-axis
+        var ballSpeedY = 0;//ball speed on the y-axis
+        var paddleHeight = 30;//how tall the paddle
+        var paddleWidth = 200;//how long the paddle
+        var sc = 0;// start with zero point
+        var live = 3;//start with 3 lives
+
+        function setup() {
+            createCanvas(800,600);
+            noCursor();
+            ballX = random(width);//where the ball appear
+            ballY = random(height/2);//where the ball appear
+            sc = 0;
+            live = 3;
+        }
+
+        function draw() {
+            background(128);
+            textSize(20)
+            text("Score =", 50, 50)//display score =
+            text("Lives =", 680,50)//display lives =
+            moveBall();//the call sign for starting to make the ball move
+            checkCollide();//check if the ball hit the paddle
+            drawPaddle();//make the paddle appear
+            drawBall();//make the ball appear
+            text(sc, 125, 50);//where the score will appear
+            text(live, 750,50)//where the lives appear
+        }
+
+        function moveBall() {
+            ballX = ballX + ballSpeedX;//move the ball in the x-axis
+            ballY = ballY + ballSpeedY;//move the ball in the y-axis
+
+            console.log("ballSpeedX: " + ballSpeedX + 
+                        ", ballSpeedY: " + ballSpeedY);//debugger check
+        }
+
+        function checkCollide() {
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1;//if the ball hit the left wall it turn right
+            }
+            if (ballY < 0) {
+                ballSpeedY = ballSpeedY * -1;//if the ball hit the left wall it turn left
+            }
+            if (ballY > height - paddleHeight) {
+                if (ballX > mouseX && ballX < mouseX + 200) {// when the hit the paddle the ball go up
+                    ballSpeedY = ballSpeedY * -1;
+                    ballSpeedY = ballSpeedY * 1.2;//the ball move faster in the y-axis when it hit the paddle
+                    ballSpeedX = ballSpeedX * 1.2;//the ball move faster in the x-axis when it hit the paddle
+                    paddleWidth -= 10;//make the paddle smaller when it hit by the ball
+                    sc += 1;//add one point to the scoreboard when the ball hit the paddle
+                }
+                else {
+                    live -= 1//if the ball hit the void subtract one live
+                    ballX = random(width);//make the ball appear on it orignal position 
+                    ballY = random(height/2);//make the ball appear on it orignal position 
+                }
+            }
+            if(live == 0){//if the player lose all their lives they lose
+                text("GAME OVER!", width / 2, height / 2);//say GAME OVER! when the player reach 0 lives
+                sc = 0//the scoreboard go back to zero when the player lose all lives
+                noLoop();//stop the game
+            }
+        }
+
+        function drawBall() {//make to ball appear
+            noStroke();
+            ellipse(ballX, ballY, 20, 20);
+        }
+
+        function drawPaddle() {//make the paddle appear
+            strokeWeight(4);//how thick the paddle is 
+            rect(mouseX, height - paddleHeight - 4, paddleWidth, paddleHeight);//the mouse controll the paddle and make the paddle appear
+        }
+        
+        function mousePressed(){//the ball don't move untl you click with your mouse
+            if (ballSpeedX == 0){
+                ballSpeedX = 5
+                ballSpeedY =5
+            }
+        }
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/alanl0100/p5js/blob/gh-pages/remix-examples.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
